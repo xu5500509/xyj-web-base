@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.xyj.ssm.dao.IUserDAO">
+
+    <sql id="Base_Column_List">
+        id,
+        name,
+        password,
+        image,
+        email,
+        role,
+        code
+    </sql>
+    <insert id="insert" parameterType="cn.xyj.ssm.domain.User">
+        INSERT INTO user (
+		    name
+		    ,password
+		    ,image
+		    ,email
+		    ,role
+		    ,code
+        ) VALUES (
+		    	#{name}
+		    	,#{password}
+		    	,#{image}
+		    	,#{email}
+		    	,#{role}
+		    	,#{code}
+        )
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+        	SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+    </insert>
+
+    <insert id="insertMap" >
+        INSERT INTO user (
+		    name
+		    ,password
+		    ,image
+		    ,email
+		    ,role
+		    ,code
+        ) VALUES (
+		    	#{map.name}
+		    	,#{map.password}
+		    	,#{map.image}
+		    	,#{map.email}
+		    	,#{map.role}
+		    	,#{map.code}
+        )
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="cn.xyj.ssm.domain.User">
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+		    name=#{name},
+		    password=#{password},
+		    image=#{image},
+		    email=#{email},
+		    role=#{role},
+		    code=#{code},
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
+	
+	<update id="updateMap">
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="map.name!=null">
+                name = #{map.name},
+            </if>
+            <if test="map.password!=null">
+                password = #{map.password},
+            </if>
+            <if test="map.image!=null">
+                image = #{map.image},
+            </if>
+            <if test="map.email!=null">
+                email = #{map.email},
+            </if>
+            <if test="map.role!=null">
+                role = #{map.role},
+            </if>
+            <if test="map.code!=null">
+                code = #{map.code},
+            </if>
+        </trim>
+        WHERE
+        id = #{map.id}
+    </update>
+
+    <update id="updateByCondition">
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="update.name!=null">
+                name = #{update.name},
+            </if>
+            <if test="update.password!=null">
+                password = #{update.password},
+            </if>
+            <if test="update.image!=null">
+                image = #{update.image},
+            </if>
+            <if test="update.email!=null">
+                email = #{update.email},
+            </if>
+            <if test="update.role!=null">
+                role = #{update.role},
+            </if>
+            <if test="update.code!=null">
+                code = #{update.code},
+            </if>
+        </trim>
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="condition.name!=null">
+                AND name = #{condition.name}
+            </if>
+            <if test="condition.password!=null">
+                AND password = #{condition.password}
+            </if>
+            <if test="condition.image!=null">
+                AND image = #{condition.image}
+            </if>
+            <if test="condition.email!=null">
+                AND email = #{condition.email}
+            </if>
+            <if test="condition.role!=null">
+                AND role = #{condition.role}
+            </if>
+            <if test="condition.code!=null">
+                AND code = #{condition.code}
+            </if>
+        </trim>
+    </update>
+
+    <update id="updateNull" parameterType="cn.xyj.ssm.domain.User">
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+            name = #{name},
+            password = #{password},
+            image = #{image},
+            email = #{email},
+            role = #{role},
+            code = #{code},
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
+    
+    
+    <!-- 按Id删除 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id = #{id}
+        </trim>
+    </delete>
+
+    <!--根据list(ids)删除对象-->
+    <delete id="deleteByIds">
+        DELETE FROM user
+        WHERE id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+
+    <delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+            <if test="name!=null">
+                AND name = #{name}
+            </if>
+            <if test="password!=null">
+                AND password = #{password}
+            </if>
+            <if test="image!=null">
+                AND image = #{image}
+            </if>
+            <if test="email!=null">
+                AND email = #{email}
+            </if>
+            <if test="role!=null">
+                AND role = #{role}
+            </if>
+            <if test="code!=null">
+                AND code = #{code}
+            </if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM user WHERE
+        ${property} = #{value}
+    </delete>
+    
+    <!--查询相关 -->
+    <select id="fetch" parameterType="java.lang.Long" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id = #{id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user WHERE
+        ${property} = #{value}
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user WHERE
+        ${property} = #{value}
+        <if test="orderBy!=null">
+            ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+    <select id="findAll" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        <if test="orderBy!=null">
+            ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+    <select id="queryPage" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        <where>
+
+            <if test="condition.whereSql != null">
+                and id in (#{condition.whereSql})
+            </if>
+
+            <if test="condition.id!=null">
+                ${condition.groupOp}   id  ${condition.id.op}  #{condition.id.data}
+            </if>
+            <if test="condition.name!=null">
+                ${condition.groupOp}   name  ${condition.name.op}  #{condition.name.data}
+            </if>
+            <if test="condition.password!=null">
+                ${condition.groupOp}   password  ${condition.password.op}  #{condition.password.data}
+            </if>
+            <if test="condition.image!=null">
+                ${condition.groupOp}   image  ${condition.image.op}  #{condition.image.data}
+            </if>
+            <if test="condition.email!=null">
+                ${condition.groupOp}   email  ${condition.email.op}  #{condition.email.data}
+            </if>
+            <if test="condition.role!=null">
+                ${condition.groupOp}   role  ${condition.role.op}  #{condition.role.data}
+            </if>
+            <if test="condition.code!=null">
+                ${condition.groupOp}   code  ${condition.code.op}  #{condition.code.data}
+            </if>
+
+
+    </where>
+
+        <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+        </if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id like CONCAT('%', #{id} , '%')
+            </if>
+            <if test="name!=null">
+                AND name like CONCAT('%', #{name} , '%')
+            </if>
+            <if test="password!=null">
+                AND password like CONCAT('%', #{password} , '%')
+            </if>
+            <if test="image!=null">
+                AND image like CONCAT('%', #{image} , '%')
+            </if>
+            <if test="email!=null">
+                AND email like CONCAT('%', #{email} , '%')
+            </if>
+            <if test="role!=null">
+                AND role like CONCAT('%', #{role} , '%')
+            </if>
+            <if test="code!=null">
+                AND code like CONCAT('%', #{code} , '%')
+            </if>
+        </trim>
+        <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+
+    <select id="queryList" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="condition.id!=null">
+                AND id = #{condition.id}
+            </if>
+            <if test="condition.name!=null">
+                AND name = #{condition.name}
+            </if>
+            <if test="condition.password!=null">
+                AND password = #{condition.password}
+            </if>
+            <if test="condition.image!=null">
+                AND image = #{condition.image}
+            </if>
+            <if test="condition.email!=null">
+                AND email = #{condition.email}
+            </if>
+            <if test="condition.role!=null">
+                AND role = #{condition.role}
+            </if>
+            <if test="condition.code!=null">
+                AND code = #{condition.code}
+            </if>
+        </trim>
+        <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+    <select id="queryOne" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="condition.id!=null">
+                AND id = #{condition.id}
+            </if>
+            <if test="condition.name!=null">
+                AND name = #{condition.name}
+            </if>
+            <if test="condition.password!=null">
+                AND password = #{condition.password}
+            </if>
+            <if test="condition.image!=null">
+                AND image = #{condition.image}
+            </if>
+            <if test="condition.email!=null">
+                AND email = #{condition.email}
+            </if>
+            <if test="condition.role!=null">
+                AND role = #{condition.role}
+            </if>
+            <if test="condition.code!=null">
+                AND code = #{condition.code}
+            </if>
+        </trim>
+        limit 0,1
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT count(1) FROM user
+       <where>
+           <if test="id!=null">
+               ${groupOp} id ${id.op}  #{id.data}
+           </if>
+           <if test="name!=null">
+               ${groupOp} name ${name.op}  #{name.data}
+           </if>
+           <if test="password!=null">
+               ${groupOp} password ${password.op}  #{password.data}
+           </if>
+           <if test="image!=null">
+               ${groupOp} image ${image.op}  #{image.data}
+           </if>
+           <if test="email!=null">
+               ${groupOp} email ${email.op}  #{email.data}
+           </if>
+           <if test="role!=null">
+               ${groupOp} role ${role.op}  #{role.data}
+           </if>
+           <if test="code!=null">
+               ${groupOp} code ${code.op}  #{code.data}
+           </if>
+
+       </where>
+    <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+    </if>
+    </select>
+
+    <select id="selectMaxId" resultType="java.lang.Long">
+        SELECT
+        MAX(id)
+        FROM user
+    </select>
+   
+</mapper>

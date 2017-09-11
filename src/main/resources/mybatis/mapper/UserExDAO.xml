@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.xyj.ssm.dao.IUserDAO">
+	<!-- 在这里存放用户自定义的映射配置（注：UserDAO.xml里各节点的ID不能在这里重复出现）  -->
+	<select id="findAllEx" resultType="cn.xyj.ssm.domain.UserEx">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM user
+		<if test="orderBy!=null">
+			ORDER BY ${orderBy} ${sortBy}
+		</if>
+	</select>
+
+	<select id="queryPageEx" resultType="cn.xyj.ssm.domain.User">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM user
+		<where>
+			1 = 1
+
+			<if test="condition.name!=null">
+				AND   name  LIKE  CONCAT('%', #{condition.name} , '%')
+			</if>
+
+		</where>
+
+		<if test="orderBy!=null">
+			ORDER BY ${orderBy} ${sortBy}
+		</if>
+		<if test="offset != null">
+			limit ${offset}, ${rows}
+		</if>
+	</select>
+
+	<select id="countEx" resultType="java.lang.Integer">
+		SELECT count(1) FROM user
+		<where>
+			1 = 1
+
+			<if test="condition.name!=null">
+				AND   name  LIKE  CONCAT('%', #{condition.name} , '%')
+			</if>
+
+		</where>
+	</select>
+</mapper>
