@@ -23,6 +23,16 @@
 	</listener>
 	<!-- Spring配置文件结束 -->
 
+	<!-- cros 跨域 -->
+	<filter>
+		<filter-name>cros</filter-name>
+		<filter-class>cn.xyj.ssm.interceptor.CrossFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>cros</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
