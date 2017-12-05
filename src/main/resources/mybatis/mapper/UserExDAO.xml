@@ -44,4 +44,12 @@
 
 		</where>
 	</select>
+
+	<update id="updateRole">
+		UPDATE user
+		SET role = role - 1
+		WHERE
+		id = #{id}
+		AND role > 0
+	</update>
 </mapper>

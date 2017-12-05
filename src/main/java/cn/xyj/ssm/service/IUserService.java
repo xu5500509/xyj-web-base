@@ -34,4 +34,6 @@ import java.util.List;
 public interface IUserService {
 
     List<UserEx> findAllEx();
+
+    int testTra() throws Exception;
 }

@@ -68,7 +68,7 @@
     <!-- 5   注解事务切面 -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
-    <!-- 开启druid spring监考 -->
+    <!-- 开启druid spring监控 -->
     <!-- Spring和Jdbc的关联监控，方法名正则匹配拦截配置 -->
     <bean id="druid-stat-interceptor"
           class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />

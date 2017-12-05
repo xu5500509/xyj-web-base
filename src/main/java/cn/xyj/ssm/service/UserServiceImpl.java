@@ -26,6 +26,7 @@ import cn.xyj.ssm.param.UserParam;
 import cn.xyj.ssm.utils.BizData4Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,6 +45,18 @@ public class UserServiceImpl implements IUserService{
          return userDAO.findAllEx(UserParam.F_ID, SqlOrderEnum.DESC.getAction());
      }
 
-
-
- }
+    @Transactional
+    @Override
+    public int testTra() throws Exception {
+         int a = 0;
+         int b = 0;
+         User user1 = new User();
+         user1.setName("测试测试");
+         a = userDAO.insert(user1);
+         b = userDAO.updateRole(29);
+         if (b <= 0){
+             throw new RuntimeException("库存不足");
+         }
+         return a+b;
+    }
+}

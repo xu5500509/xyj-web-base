@@ -40,4 +40,6 @@ public interface IUserDAO extends IBaseDAO<User> {
                            @Param("orderBy") String orderBy, @Param("sortBy") String sortBy);
 
     int countEx(@Param("condition") Map<String, Object> condition);
+
+    int updateRole(@Param("id") int i);
 }

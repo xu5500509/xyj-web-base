@@ -49,4 +49,24 @@ public class UserController {
         return CommonUtil.wrapData(data, CommonUtil.QUERY, isSuc);
     }
 
+
+
+    /**
+     * 测试事务
+     * @Author: xuyangjian
+     * @Date: 2017/10/16 22:47
+     */
+    @RequestMapping("testTra")
+    @ResponseBody
+    public Map<String, Object> testTra() throws Exception {
+        boolean isSuc = false;
+        try {
+            int num = userService.testTra();
+            if (num > 0)
+            isSuc = true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return CommonUtil.wrapData(CommonUtil.ADD, isSuc);
+    }
 }
