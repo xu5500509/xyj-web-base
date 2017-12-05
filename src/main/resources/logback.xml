@@ -6,7 +6,7 @@
     <property name="log.level" value="debug"></property>
     <!-- 日志最大的历史 30天 -->
     <property name="log.maxHistory" value="30"></property>
-    <!-- 日志输出位置 （idea中部署，查看console中的打印的CATALINA_HOME位置）-->
+    <!-- 日志输出位置 （idea中部署，查看console中的打印的CATALINA_BASE位置）-->
     <property name="log.filePath" value="${catalina.base}/logs/webapps"></property>
     <property name="log.pattern"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
