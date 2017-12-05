@@ -8,6 +8,8 @@ import cn.xyj.ssm.service.IUserService;
 import cn.xyj.ssm.utils.BizData4Page;
 import cn.xyj.ssm.utils.CommonUtil;
 import cn.xyj.ssm.utils.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,8 @@ import java.util.*;
 @RequestMapping({"/user"})
 public class UserController {
 
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     IUserService userService;
 
@@ -37,6 +41,8 @@ public class UserController {
     @RequestMapping("findAll")
     @ResponseBody
     public Map<String, Object> findAll() throws Exception {
+        logger.info("==========start============");
+        long startTime = System.currentTimeMillis();
         boolean isSuc = false;
         List<UserEx> data  =  new ArrayList<>();
         try {
@@ -46,6 +52,10 @@ public class UserController {
         } catch (Exception e) {
             throw new Exception(e);
         }
+        logger.error("==========test error==========");
+        long endTime = System.currentTimeMillis();
+        logger.debug("花费时间：[{}ms]",endTime - startTime);
+        logger.info("==========end============");
         return CommonUtil.wrapData(data, CommonUtil.QUERY, isSuc);
     }
 
