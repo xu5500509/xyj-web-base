@@ -20,6 +20,8 @@
     <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 文件路径 -->
         <file>${log.filePath}/debug.log</file>
+        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责出发滚动 -->
+        <!-- 清空${log.filePath}/debug.log中前一天的日志，将前一天的日志备份到${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 文件名称 -->
             <fileNamePattern>
