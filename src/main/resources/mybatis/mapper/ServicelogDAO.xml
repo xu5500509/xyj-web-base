@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.xyj.ssm.dao.IServicelogDAO">
+
+    <sql id="Base_Column_List">
+        id,
+        logDescription,
+        logParams,
+        logTime,
+        logMethod,
+        logType,
+        logIp
+    </sql>
+    <insert id="insert" parameterType="cn.xyj.ssm.domain.Servicelog">
+        INSERT INTO servicelog (
+		    id
+		    ,logDescription
+		    ,logParams
+		    ,logTime
+		    ,logMethod
+		    ,logType
+		    ,logIp
+        ) VALUES (
+		    	#{id}
+		    	,#{logDescription}
+		    	,#{logParams}
+		    	,#{logTime}
+		    	,#{logMethod}
+		    	,#{logType}
+		    	,#{logIp}
+        )
+        <selectKey resultType="java.lang.Long" keyProperty="id">
+        	SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+    </insert>
+
+    <insert id="insertMap" >
+        INSERT INTO servicelog (
+		    id
+		    ,logDescription
+		    ,logParams
+		    ,logTime
+		    ,logMethod
+		    ,logType
+		    ,logIp
+        ) VALUES (
+		    	#{map.id}
+		    	,#{map.logDescription}
+		    	,#{map.logParams}
+		    	,#{map.logTime}
+		    	,#{map.logMethod}
+		    	,#{map.logType}
+		    	,#{map.logIp}
+        )
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="cn.xyj.ssm.domain.Servicelog">
+        UPDATE servicelog
+        <trim prefix="SET" suffixOverrides=",">
+		    id=#{id},
+		    logDescription=#{logDescription},
+		    logParams=#{logParams},
+		    logTime=#{logTime},
+		    logMethod=#{logMethod},
+		    logType=#{logType},
+		    logIp=#{logIp},
+        </trim>
+        WHERE
+    </update>
+	
+	<update id="updateMap">
+        UPDATE servicelog
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="map.id!=null">
+                id = #{map.id},
+            </if>
+            <if test="map.logDescription!=null">
+                logDescription = #{map.logDescription},
+            </if>
+            <if test="map.logParams!=null">
+                logParams = #{map.logParams},
+            </if>
+            <if test="map.logTime!=null">
+                logTime = #{map.logTime},
+            </if>
+            <if test="map.logMethod!=null">
+                logMethod = #{map.logMethod},
+            </if>
+            <if test="map.logType!=null">
+                logType = #{map.logType},
+            </if>
+            <if test="map.logIp!=null">
+                logIp = #{map.logIp},
+            </if>
+        </trim>
+        WHERE
+        id = #{map.id}
+    </update>
+
+    <update id="updateByCondition">
+        UPDATE servicelog
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="update.id!=null">
+                id = #{update.id},
+            </if>
+            <if test="update.logDescription!=null">
+                logDescription = #{update.logDescription},
+            </if>
+            <if test="update.logParams!=null">
+                logParams = #{update.logParams},
+            </if>
+            <if test="update.logTime!=null">
+                logTime = #{update.logTime},
+            </if>
+            <if test="update.logMethod!=null">
+                logMethod = #{update.logMethod},
+            </if>
+            <if test="update.logType!=null">
+                logType = #{update.logType},
+            </if>
+            <if test="update.logIp!=null">
+                logIp = #{update.logIp},
+            </if>
+        </trim>
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="condition.id!=null">
+                AND id = #{condition.id}
+            </if>
+            <if test="condition.logDescription!=null">
+                AND logDescription = #{condition.logDescription}
+            </if>
+            <if test="condition.logParams!=null">
+                AND logParams = #{condition.logParams}
+            </if>
+            <if test="condition.logTime!=null">
+                AND logTime = #{condition.logTime}
+            </if>
+            <if test="condition.logMethod!=null">
+                AND logMethod = #{condition.logMethod}
+            </if>
+            <if test="condition.logType!=null">
+                AND logType = #{condition.logType}
+            </if>
+            <if test="condition.logIp!=null">
+                AND logIp = #{condition.logIp}
+            </if>
+        </trim>
+    </update>
+
+    <update id="updateNull" parameterType="cn.xyj.ssm.domain.Servicelog">
+        UPDATE servicelog
+        <trim prefix="SET" suffixOverrides=",">
+            id = #{id},
+            logDescription = #{logDescription},
+            logParams = #{logParams},
+            logTime = #{logTime},
+            logMethod = #{logMethod},
+            logType = #{logType},
+            logIp = #{logIp},
+        </trim>
+        WHERE
+    </update>
+    
+    
+    <!-- 按Id删除 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM servicelog
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+        </trim>
+    </delete>
+
+    <!--根据list(ids)删除对象-->
+    <delete id="deleteByIds">
+        DELETE FROM servicelog
+        WHERE id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+
+    <delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM servicelog
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+            <if test="logDescription!=null">
+                AND logDescription = #{logDescription}
+            </if>
+            <if test="logParams!=null">
+                AND logParams = #{logParams}
+            </if>
+            <if test="logTime!=null">
+                AND logTime = #{logTime}
+            </if>
+            <if test="logMethod!=null">
+                AND logMethod = #{logMethod}
+            </if>
+            <if test="logType!=null">
+                AND logType = #{logType}
+            </if>
+            <if test="logIp!=null">
+                AND logIp = #{logIp}
+            </if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM servicelog WHERE
+        ${property} = #{value}
+    </delete>
+    
+    <!--查询相关 -->
+    <select id="fetch" parameterType="java.lang.Long" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog WHERE
+        ${property} = #{value}
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog WHERE
+        ${property} = #{value}
+        <if test="orderBy!=null">
+            ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+    <select id="findAll" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog
+        <if test="orderBy!=null">
+            ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+    <select id="queryPage" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog
+        <where>
+
+            <if test="condition.whereSql != null">
+                and id in (#{condition.whereSql})
+            </if>
+
+            <if test="condition.id!=null">
+                ${condition.groupOp}   id  ${condition.id.op}  #{condition.id.data}
+            </if>
+            <if test="condition.logDescription!=null">
+                ${condition.groupOp}   logDescription  ${condition.logDescription.op}  #{condition.logDescription.data}
+            </if>
+            <if test="condition.logParams!=null">
+                ${condition.groupOp}   logParams  ${condition.logParams.op}  #{condition.logParams.data}
+            </if>
+            <if test="condition.logTime!=null">
+                ${condition.groupOp}   logTime  ${condition.logTime.op}  #{condition.logTime.data}
+            </if>
+            <if test="condition.logMethod!=null">
+                ${condition.groupOp}   logMethod  ${condition.logMethod.op}  #{condition.logMethod.data}
+            </if>
+            <if test="condition.logType!=null">
+                ${condition.groupOp}   logType  ${condition.logType.op}  #{condition.logType.data}
+            </if>
+            <if test="condition.logIp!=null">
+                ${condition.groupOp}   logIp  ${condition.logIp.op}  #{condition.logIp.data}
+            </if>
+
+
+    </where>
+
+        <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+        </if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id like CONCAT('%', #{id} , '%')
+            </if>
+            <if test="logDescription!=null">
+                AND logDescription like CONCAT('%', #{logDescription} , '%')
+            </if>
+            <if test="logParams!=null">
+                AND logParams like CONCAT('%', #{logParams} , '%')
+            </if>
+            <if test="logTime!=null">
+                AND logTime like CONCAT('%', #{logTime} , '%')
+            </if>
+            <if test="logMethod!=null">
+                AND logMethod like CONCAT('%', #{logMethod} , '%')
+            </if>
+            <if test="logType!=null">
+                AND logType like CONCAT('%', #{logType} , '%')
+            </if>
+            <if test="logIp!=null">
+                AND logIp like CONCAT('%', #{logIp} , '%')
+            </if>
+        </trim>
+        <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+
+    <select id="queryList" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="condition.id!=null">
+                AND id = #{condition.id}
+            </if>
+            <if test="condition.logDescription!=null">
+                AND logDescription = #{condition.logDescription}
+            </if>
+            <if test="condition.logParams!=null">
+                AND logParams = #{condition.logParams}
+            </if>
+            <if test="condition.logTime!=null">
+                AND logTime = #{condition.logTime}
+            </if>
+            <if test="condition.logMethod!=null">
+                AND logMethod = #{condition.logMethod}
+            </if>
+            <if test="condition.logType!=null">
+                AND logType = #{condition.logType}
+            </if>
+            <if test="condition.logIp!=null">
+                AND logIp = #{condition.logIp}
+            </if>
+        </trim>
+        <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+        </if>
+    </select>
+
+    <select id="queryOne" parameterType="java.util.Map" resultType="cn.xyj.ssm.domain.Servicelog">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM servicelog
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="condition.id!=null">
+                AND id = #{condition.id}
+            </if>
+            <if test="condition.logDescription!=null">
+                AND logDescription = #{condition.logDescription}
+            </if>
+            <if test="condition.logParams!=null">
+                AND logParams = #{condition.logParams}
+            </if>
+            <if test="condition.logTime!=null">
+                AND logTime = #{condition.logTime}
+            </if>
+            <if test="condition.logMethod!=null">
+                AND logMethod = #{condition.logMethod}
+            </if>
+            <if test="condition.logType!=null">
+                AND logType = #{condition.logType}
+            </if>
+            <if test="condition.logIp!=null">
+                AND logIp = #{condition.logIp}
+            </if>
+        </trim>
+        limit 0,1
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT count(1) FROM servicelog
+       <where>
+           <if test="id!=null">
+               ${groupOp} id ${id.op}  #{id.data}
+           </if>
+           <if test="logDescription!=null">
+               ${groupOp} logDescription ${logDescription.op}  #{logDescription.data}
+           </if>
+           <if test="logParams!=null">
+               ${groupOp} logParams ${logParams.op}  #{logParams.data}
+           </if>
+           <if test="logTime!=null">
+               ${groupOp} logTime ${logTime.op}  #{logTime.data}
+           </if>
+           <if test="logMethod!=null">
+               ${groupOp} logMethod ${logMethod.op}  #{logMethod.data}
+           </if>
+           <if test="logType!=null">
+               ${groupOp} logType ${logType.op}  #{logType.data}
+           </if>
+           <if test="logIp!=null">
+               ${groupOp} logIp ${logIp.op}  #{logIp.data}
+           </if>
+
+       </where>
+    <if test="orderBy!=null">
+        ORDER BY ${orderBy} ${sortBy}
+    </if>
+    </select>
+
+    <select id="selectMaxId" resultType="java.lang.Long">
+        SELECT
+        MAX(id)
+        FROM servicelog
+    </select>
+   
+</mapper>

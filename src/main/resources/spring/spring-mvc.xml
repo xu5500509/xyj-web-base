@@ -46,6 +46,8 @@
     <!--<mvc:resources mapping="/assets/**" location="/assets/"/>-->
 
 
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
     <!-- 视图解析器
     解析jsp解析，默认使用jstl标签，classpath下的得有jstl的包
      -->
