@@ -3,6 +3,10 @@ package cn.xyj.ssm.aop.log;
 import cn.xyj.ssm.domain.Servicelog;
 import cn.xyj.ssm.service.IServicelogService;
 import com.alibaba.fastjson.JSONObject;
+import javassist.*;
+import javassist.bytecode.CodeAttribute;
+import javassist.bytecode.LocalVariableAttribute;
+import javassist.bytecode.MethodInfo;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -188,6 +192,8 @@ public class SystemLogAspect {
         Object[] arguments = joinPoint.getArgs();
         Class targetClass = Class.forName(targetName);
         Method[] methods = targetClass.getMethods();
+        //获取方法参数名称
+        String[] paramNames =  getMethodParamNames(targetClass, targetName, methodName);
         String description = "";
         for (Method method : methods) {
             if (method.getName().equals(methodName)) {
@@ -205,5 +211,32 @@ public class SystemLogAspect {
             }
         }
         return description;
+    }
+
+
+    private static String[] getMethodParamNames(Class cls, String clazzName, String methodName) throws NotFoundException {
+        //实例化类型池对象 默认搜索jvm同路径下的class
+        ClassPool classPool = ClassPool.getDefault();
+        //设置类搜索路径
+        ClassClassPath classClassPath = new ClassClassPath(cls);
+        classPool.insertClassPath(classClassPath);
+
+        //获取指定类型
+        CtClass cc = classPool.get(clazzName);
+        //获取指定方法名称
+        CtMethod cm = cc.getDeclaredMethod(methodName);
+        //获取此方法的文件
+        MethodInfo methodInfo = cm.getMethodInfo();
+        //获取方法代码属性
+        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
+        LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
+        if (attr == null) {
+        }
+        String[] paramNames = new String[cm.getParameterTypes().length];
+        int pos = Modifier.isStatic(cm.getModifiers()) ? 0 : 1;
+        for (int i = 0; i < paramNames.length; i++){
+            paramNames[i] = attr.variableName(i + pos); //paramNames即参数名
+        }
+        return paramNames;
     }
 }
