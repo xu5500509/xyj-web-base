@@ -1,5 +1,6 @@
 package cn.xyj.ssm.task;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ public class MyProcessor{
     int index = 0;
     int process2Index = 0;
 
+    @Async
     @Scheduled(cron = "0/5 * * * * ?")
     public void process() {
         try {
@@ -40,15 +42,15 @@ public class MyProcessor{
         }
     }
 
-    @Scheduled(cron = "0/1 * * * * ?")
-    public void process2() {
-        try {
-            System.out.println(process2Index + ":process2 start run at" + sdf.format(new Date()));
-            Thread.sleep(5000);
-            System.out.println(process2Index + ":process2 end run at " + sdf.format(new Date()));
-            process2Index ++;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Scheduled(cron = "0/1 * * * * ?")
+//    public void process2() {
+//        try {
+//            System.out.println(process2Index + ":process2 start run at" + sdf.format(new Date()));
+//            Thread.sleep(5000);
+//            System.out.println(process2Index + ":process2 end run at " + sdf.format(new Date()));
+//            process2Index ++;
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
