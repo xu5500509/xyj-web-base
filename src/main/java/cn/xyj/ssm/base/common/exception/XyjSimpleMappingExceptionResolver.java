@@ -38,6 +38,7 @@ public class XyjSimpleMappingExceptionResolver extends SimpleMappingExceptionRes
                     String jsonString = JSONArray.toJSONString(new BizExceptionHandler().handleException(ex, request));
                     writer.write(jsonString);
                     writer.flush();
+                    writer.close();
                 } catch (IOException e) {
                     logger.error("【系统异常】{}", e);
                 }
