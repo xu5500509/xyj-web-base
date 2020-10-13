@@ -15,7 +15,7 @@
 		<servlet.version>3.1.0</servlet.version>
 		<jsp.version>2.2</jsp.version>
 		<jstl.version>1.2</jstl.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<!-- spring start -->
 		<spring.version>4.2.6.RELEASE</spring.version>
 		<!-- spring end -->
